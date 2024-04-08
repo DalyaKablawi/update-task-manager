@@ -10,22 +10,34 @@ function generateTaskId() {
 
 // Todo: create a function to create a task card
 function createTaskCard(task) {
-  const taskCard = $(`<div class="card text-center">
-<div class="card-header" id="task-id">
-        ${task.id}
-      </div>
-      <div class="card-body">
-        <h4 class="card-title" id="task-title">
-          ${task.title}
-        </h4>
-        <p class="card-text" id="task-description">
-          ${task.description}
-        </p>
-        <p class="card-text" id="task-date">
-          ${task.date}
-        </p>
-        <button class="btn btn-danger">Delete</button>
-      </div>`);
+  const taskCard = $("<div>")
+    .addClass("card task-card draggable my-3")
+    .attr("data-task-id", task.id);
+  const cardHeader = $("<div>").addClass("card-header h4").text(task.title);
+  const cardBody = $("<div>").addClass("card-body");
+  const cardDescription = $("<p>").addClass("card-text").text(task.description);
+  const cardDueDate = $("<p>").addClass("card-text").text(task.date);
+  const cardDeleteBtn = $("<button>")
+    .addClass("btn btn-danger delete")
+    .text("Delete")
+    .attr("data-task-id", task.id);
+  cardDeleteBtn.on("click", handleDeleteTask);
+
+  if (task.date && task.status !== "done") {
+    const now = dayjs();
+    const taskDueDate = dayjs(task.date, "DD/MM/YYYY");
+
+    if (now.isSame(taskDueDate, "day")) {
+      taskCard.addClass("bg-warning text-white");
+    } else if (now.isAfter(taskDueDate)) {
+      taskCard.addClass("bg-danger text-white");
+      cardDeleteBtn.addClass("border-light");
+    }
+  }
+
+  cardBody.append(cardDescription, cardDueDate, cardDeleteBtn);
+  taskCard.append(cardHeader, cardBody);
+
   return taskCard;
 }
 

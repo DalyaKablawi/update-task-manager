@@ -56,15 +56,27 @@ function createTaskCard(task) {
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
   const tasks = readTasksFromStorage();
-  const todoList = $("todo-cards");
+  const todoList = $("#todo-cards");
   todoList.empty();
-  const inProgressList = $("in-progress-cards");
-  taskList.forEach((task) => {
-    const card = createTaskCard(task);
-    $(`#${task.status}-cards`).append(card);
-  });
+  const inProgressList = $("#in-progress-cards");
+  inProgressList.empty();
+  const doneList = $("#done-cards");
+  doneList.empty();
 
-  $(".card").draggable({});
+  for (task of tasks) {
+    if (task.status === "to-do") {
+      todoList.append(createTaskCard(task));
+    } else if (task.status === "in-progress") {
+      inProgressList.append(createTaskCard(task));
+    } else if (task.status === "done") {
+      doneList.append(createTaskCard(task));
+    }
+  }
+
+  $(".draggable").draggable({
+    opacity: 0.7,
+    zIndex: 100,
+  });
 }
 
 // Todo: create a function to handle adding a new task
@@ -92,7 +104,15 @@ function handleAddTask(event) {
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event) {
-  $(".card").remove();
+  const taskId = $(this).attr("data-task-id");
+  const tasks = readTasksFromStorage();
+  tasks.forEach((task) => {
+    if (task.id === taskId) {
+      tasks.splice(tasks.indexOf(task), 1);
+    }
+  });
+  saveTasksToStorage(tasks);
+  renderTaskList();
 }
 
 // Todo: create a function to handle dropping a task into a new status lane

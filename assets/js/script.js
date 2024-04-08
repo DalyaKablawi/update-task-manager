@@ -9,7 +9,6 @@ const descriptionEl = $("#task-description");
 const deadlineEl = $("#task-date");
 const cardBodyEl = $(".card-body");
 const addTaskFormEl = $("#taskForm");
-const modalOpen = $("#openModalBtn");
 
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
@@ -28,7 +27,6 @@ function saveTasksToStorage() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-// Todo: create a function to create a task card
 function createTaskCard(task) {
   const taskCard = $("<div>")
     .addClass("card task-card draggable my-3")
@@ -61,7 +59,6 @@ function createTaskCard(task) {
   return taskCard;
 }
 
-// Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
   const tasks = readTasksFromStorage();
   const todoList = $("#todo-cards");
@@ -85,15 +82,8 @@ function renderTaskList() {
     opacity: 0.7,
     zIndex: 100,
   });
-
-  modalOpen.on("click", function () {
-    const taskModalEl = $("#taskModal");
-    taskModalEl.css("display", "block");
-  });
-  addTaskFormEl.on("submit", handleAddTask);
 }
 
-// Todo: create a function to handle adding a new task
 function handleAddTask(event) {
   event.preventDefault();
   const title = titleEl.val();
@@ -119,7 +109,6 @@ function handleAddTask(event) {
   deadlineEl.val(" ");
 }
 
-// Todo: create a function to handle deleting a task
 function handleDeleteTask(event) {
   const taskId = $(this).attr("data-task-id");
   const tasks = readTasksFromStorage();
@@ -132,7 +121,6 @@ function handleDeleteTask(event) {
   renderTaskList();
 }
 
-// Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
   const tasks = readTasksFromStorage();
   const taskId = ui.draggable[0].dataset.taskId;
@@ -147,7 +135,7 @@ function handleDrop(event, ui) {
 }
 
 cardBodyEl.on("click", ".btn-delete-task", handleDeleteTask);
-// Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
+
 $(document).ready(function () {
   $("#taskModal").dialog({
     autoOpen: false,

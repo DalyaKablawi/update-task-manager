@@ -8,6 +8,18 @@ function generateTaskId() {
   nextId++;
 }
 
+function readTasksFromStorage() {
+  let tasks = JSON.parse(localStorage.getItem("tasks"));
+  if (!tasks) {
+    tasks = [];
+  }
+  return tasks;
+}
+
+function saveTasksToStorage() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
 // Todo: create a function to create a task card
 function createTaskCard(task) {
   const taskCard = $("<div>")
@@ -43,10 +55,10 @@ function createTaskCard(task) {
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
-  $("#todo-cards").empty();
-  $("#in-progress-cards").empty();
-  $("done-cards").empty();
-
+  const tasks = readTasksFromStorage();
+  const todoList = $("todo-cards");
+  todoList.empty();
+  const inProgressList = $("in-progress-cards");
   taskList.forEach((task) => {
     const card = createTaskCard(task);
     $(`#${task.status}-cards`).append(card);

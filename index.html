@@ -44,15 +44,35 @@
         </button>
       </div>
       <!-- Todo: Create a modal with a form to add tasks -->
-      <div id="form" class="hidden">
-        <label for="task-title">Task Title:</label>
-        <input id="task-title" type="text" style="width: 200px" />
 
-        <label for="task-date">Due Date:</label>
-        <input id="datepicker" />
+      <div id="taskModal" title="Add New Task">
+        <form id="taskForm">
+          <label for="taskTitle">Task Title:</label>
+          <input
+            type="text"
+            id="task-title"
+            name="taskTitle"
+            required
+          /><br /><br />
 
-        <label for="task-description">Description</label>
-        <input id="description" type="textarea" />
+          <label for="taskDescription">Task Description:</label>
+          <textarea
+            id="task-description"
+            name="taskDescription"
+            required
+          ></textarea
+          ><br /><br />
+
+          <label for="taskDueDate">Due Date:</label>
+          <input
+            type="text"
+            id="task-date"
+            name="taskDueDate"
+            required
+          /><br /><br />
+
+          <input type="submit" value="Add Task" />
+        </form>
       </div>
       <div class="row swim-lanes text-center justify-content-between">
         <div class="col-12 col-lg-4 d-flex">

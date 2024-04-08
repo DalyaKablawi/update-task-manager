@@ -1,9 +1,15 @@
 // Retrieve tasks and nextId from localStorage
 let tasks = JSON.parse(localStorage.getItem("tasks"));
 let nextId = JSON.parse(localStorage.getItem("nextId"));
+if (!nextId) {
+  nextId = 1;
+}
 const titleEl = $("#task-title");
 const descriptionEl = $("#task-description");
 const deadlineEl = $("#task-date");
+const cardBodyEl = $(".card-body");
+const addTaskFormEl = $("#taskForm");
+const modalOpen = $("#openModalBtn");
 
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
@@ -32,7 +38,7 @@ function createTaskCard(task) {
   const cardDescription = $("<p>").addClass("card-text").text(task.description);
   const cardDueDate = $("<p>").addClass("card-text").text(task.date);
   const cardDeleteBtn = $("<button>")
-    .addClass("btn btn-danger delete")
+    .addClass("btn btn-danger btn-delete-task")
     .text("Delete")
     .attr("data-task-id", task.id);
   cardDeleteBtn.on("click", handleDeleteTask);
@@ -79,6 +85,12 @@ function renderTaskList() {
     opacity: 0.7,
     zIndex: 100,
   });
+
+  modalOpen.on("click", function () {
+    const taskModalEl = $("#taskModal");
+    taskModalEl.css("display", "block");
+  });
+  addTaskFormEl.on("submit", handleAddTask);
 }
 
 // Todo: create a function to handle adding a new task
@@ -98,7 +110,8 @@ function handleAddTask(event) {
 
   const tasks = readTasksFromStorage();
   tasks.push(newTask);
-  saveTasksToStorage(tasks);
+  saveTasksToStorage();
+  $("#taskModal").dialog("close");
   renderTaskList();
 
   titleEl.val(" ");
@@ -115,7 +128,7 @@ function handleDeleteTask(event) {
       tasks.splice(tasks.indexOf(task), 1);
     }
   });
-  saveTasksToStorage(tasks);
+  saveTasksToStorage();
   renderTaskList();
 }
 
@@ -133,30 +146,29 @@ function handleDrop(event, ui) {
   renderTaskList();
 }
 
-
-
+cardBodyEl.on("click", ".btn-delete-task", handleDeleteTask);
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
-  renderTaskList();
-
-  const form = $("#form").dialog({
+  $("#taskModal").dialog({
     autoOpen: false,
     modal: true,
-    buttons: {
-      Close: function () {
-        $(this).dialog("close");
-      },
-    },
+    width: 400,
   });
 
-  addTaskBtn.on("click", function () {
-    $("#form").dialog("open");
+  // Open modal when button is clicked
+  $("#formSubmit").on("click", function () {
+    $("#taskModal").dialog("open");
+  });
+  addTaskFormEl.on("submit", handleAddTask);
+  renderTaskList();
+
+  $("#task-date").datepicker({
+    changeMonth: true,
+    changeYear: true,
   });
 
-  $(function () {
-    $("#deadline").datepicker({
-      changeMonth: true,
-      changeYear: true,
-    });
+  $(".lane").droppable({
+    accept: ".draggable",
+    drop: handleDrop,
   });
 });

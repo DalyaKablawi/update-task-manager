@@ -38,10 +38,4 @@ THEN the saved tasks persist
 
 ## Screenshots
 
-![GIF of Assignment 4](./assets/Assignment%204%20GIF.gif)
-
 ## URLs
-
-[GitHub repository URL](https://github.com/DalyaKablawi/my-blog)
-
-[Deployed application URL](https://dalyakablawi.github.io/my-blog/)

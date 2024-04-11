@@ -8,6 +8,8 @@ The goal of this assignment was to create a task manager that allows users to ad
 
 I did this by:
 
+- Setting task IDs to distinctly define tasks by ID
+
 ## User Story
 
 ```md
@@ -36,6 +38,8 @@ WHEN I refresh the page
 THEN the saved tasks persist
 ```
 
-## Screenshots
-
 ## URLs
+
+[GitHub Repo](https://github.com/DalyaKablawi/update-task-manager)
+
+[Deployed Page]

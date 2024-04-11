@@ -30,7 +30,6 @@ function saveTasksToStorage(tasks) {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-
 function createTaskCard(task) {
   //creates div for task card that will store dynamically created HTML for title, description and due date
   const taskCard = $("<div>")
@@ -59,7 +58,7 @@ function createTaskCard(task) {
       cardDeleteBtn.addClass("border-light");
     }
   }
-//adds task card description, due date and delete button to card body and title and body to task card div.
+  //adds task card description, due date and delete button to card body and title and body to task card div.
   cardBody.append(cardDescription, cardDueDate, cardDeleteBtn);
   taskCard.append(cardHeader, cardBody);
 
@@ -85,7 +84,7 @@ function renderTaskList() {
       doneList.append(createTaskCard(task));
     }
   }
-//allows tasks to be dragged from one swim lane to another
+  //allows tasks to be dragged from one swim lane to another
   $(".draggable").draggable({
     opacity: 0.7,
     zIndex: 100,
@@ -120,7 +119,6 @@ function handleAddTask(event) {
   deadlineEl.val(" ");
 }
 
-
 function handleDeleteTask(event) {
   const taskId = $(this).attr("data-task-id");
   const tasks = readTasksFromStorage();
@@ -145,10 +143,10 @@ function handleDrop(event, ui) {
   localStorage.setItem("tasks", JSON.stringify(tasks));
   renderTaskList();
 }
-
+//deletes card body when delete button clicked
 cardBodyEl.on("click", ".btn-delete-task", handleDeleteTask);
 
-//upon page load, and clicking on the add task button, the modal form appears with the form fields for the user to input data regarding the new task. 
+//upon page load, and clicking on the add task button, the modal form appears with the form fields for the user to input data regarding the new task.
 $(document).ready(function () {
   $("#taskModal").dialog({
     autoOpen: false,
@@ -159,15 +157,15 @@ $(document).ready(function () {
   $("#formSubmit").on("click", function () {
     $("#taskModal").dialog("open");
   });
-//once submitted the handleAddTask function is triggered and the tasks are added and rendered on the page
+  //once submitted the handleAddTask function is triggered and the tasks are added and rendered on the page
   addTaskFormEl.on("submit", handleAddTask);
   renderTaskList();
-//this is the datepicker function from jquery ui which allows users to select month and year of the task due date
+  //this is the datepicker function from jquery ui which allows users to select month and year of the task due date
   $("#task-date").datepicker({
     changeMonth: true,
     changeYear: true,
   });
-//this allows anything with class lane to be droppable and accepts those with class draggable to be dropped. the handleDrop function facilitates this
+  //this allows anything with class lane to be droppable and accepts those with class draggable to be dropped. the handleDrop function facilitates this
   $(".lane").droppable({
     accept: ".draggable",
     drop: handleDrop,

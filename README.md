@@ -9,6 +9,12 @@ The goal of this assignment was to create a task manager that allows users to ad
 I did this by:
 
 - Setting task IDs to distinctly define tasks by ID
+- Reading tasks from local storage and creates empty array of tasks if no tasks exist
+- Setting tasks created to local storage
+- Creating tasks cards by dynamically adding data from modal form into dynamically created divs
+- Usind dayjs to identify which swim lanes new tasks belong to based on their due dates
+- Setting task cards to be draggable and swim lanes to be droppable to accept dragged task cards
+- Calling function to add new tasks and render them on the page upon page reload with event listeners to delete tasks upon clicking delete button
 
 ## User Story
 
@@ -42,4 +48,4 @@ THEN the saved tasks persist
 
 [GitHub Repo](https://github.com/DalyaKablawi/update-task-manager)
 
-[Deployed Page]
+[Deployed Page](https://dalyakablawi.github.io/update-task-manager/)
